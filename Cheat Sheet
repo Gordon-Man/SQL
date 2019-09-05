@@ -5,7 +5,9 @@ FROM     - specifies table to select from
 WHERE    - condition for selected data
 DISTINCT - only return unique values in query, used in tandem with select ex: SELECT DISTINCT (column names)
 COUNT    - returns the number of queried items, used in tandem with SELECT, ex: SELECT COUNT (column names)
-LIKE     - used to specify a more narrow search with the WHERE clause, such as names starting with A, ex: WHERE names LIKE "A%";
+LIKE     - used to specify a pattern match with the WHERE clause, such as names starting with A, ex: WHERE names LIKE "A%";
+               refer to https://www.w3schools.com/sql/sql_like.asp for more examples using LIKE
+               refer to https://www.w3schools.com/sql/sql_wildcards.asp for more wild card examples
 AND      - used in conjunction with WHERE to specify two different conditions that must be met in order to select from.
 OR       - also used in conjunction with WHERE to specify multiple conditions that can satisfy the search (WHERE this OR that)
 NOT      - changes the condition to anything that isn't the specified condition, used after WHERE and AND. ex: WHERE NOT country = 'USA'
@@ -21,6 +23,18 @@ LIMIT    - specifies a number of items that can be returned from a query. can't 
 TOP      - used in tandem with SELECT to return X number of items or percentage. (same thing as limit)
 AS       - allows you to rename the title of the result set. use AS after the columns specified in the SELECT statement
 MIN/MAX  - allows you to find the smallest or largest value in a column, ex: SELECT MIN(Price) //returns the smallest price value in Price column
+AVG      - used after SELECT, ex: SELECT AVG(Column Name), returns the average of all records
+SUM      - returns the sum of all records, ex: SELECT SUM(Column_Name)
+IN       - shorthand for OR operator, used in WHERE clause. ex: WHERE country IN ('Germany', 'France', 'Poland');
+BETWEEN  - allows you to narrow your filter to a range between two numbers, text or date. ex: WHERE age BETWEEN 10 AND 20;
+
+JOIN     - consider table 1 and table 2, left == table 1, right == table 2
+
+INNER JOIN: finds matches that are in both tables. (Intersection of two tables)
+
+              ex: 
+
+
 
 
 EXAMPLE QUERIES:
@@ -33,7 +47,7 @@ FROM table_name;
 
 SELECT * FROM (table_name);
 
-//Wild card can be used to select everything from a table
+//Wild card can be used to select every column from a table
 
 SELECT DISTINCT column1, column2, ...
 FROM table_name;
@@ -60,8 +74,9 @@ WHERE name LIKE 'L%';
 
 //This last query uses wildcards, this will search for all cities that have a name that starts with
 
-SELECT * FROM Customers
-ORDER BY Country, CustomerName;
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1, column2, ... ASC|DESC;
 
 //Order by will sort customers by Country name in ascending order by default, if duplicate country names, 
 //the second method of sorting will be by customer name
@@ -76,3 +91,10 @@ SET ContactName='Juan', City = San Francisco
 WHERE Country='Mexico';
 
 //Updates an existing table, can update one or more records. it is all dependent on the WHERE clause.
+
+SELECT * FROM Orders
+WHERE OrderDate BETWEEN '1996-07-01' AND '1996-07-31';
+
+//BETWEEN operator allows you to specify a range to search
+
+
