@@ -1,0 +1,49 @@
+KEYWORDS:
+
+SELECT - select data from a table
+FROM - specifies table to select from
+WHERE - condition for selected data
+DISTINCT - only return unique values in query, used in tandem with select ex: SELECT DISTINCT (column names)
+COUNT - returns the number of queried items, used in tandem with SELECT, ex: SELECT COUNT (column names)
+LIKE - used to specify a more narrow search with the WHERE clause, such as names starting with A, ex: WHERE names LIKE "A%";
+AND - used in conjunction with WHERE to specify two different conditions that must be met in order to select from.
+OR - also used in conjunction with WHERE to specify multiple conditions that can satisfy the search (WHERE this OR that)
+NOT - changes the condition to anything that isn't the specified condition, used after WHERE and AND. ex: WHERE NOT country = 'USA'
+
+
+EXAMPLE QUERIES:
+
+SELECT column1, column2, ...
+FROM table_name;
+
+//The SELECT statement is used to select data from a database.
+//The data returned is stored in a result table, called the result-set.
+
+SELECT * FROM (table_name);
+
+//Wild card can be used to select everything from a table
+
+SELECT DISTINCT column1, column2, ...
+FROM table_name;
+
+//Distinct only grabs information that are unique in the specified columns, duplicates are not going to be stored in the result-set.
+
+SELECT COUNT(DISTINCT Country) FROM Customers;
+
+//Count keyword lets you return the number of selected items in the query. This query will return the number of distinct countries available
+//inside the Custoemrs table.
+
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+
+//WHERE keyword allows you to add a condition. We want information from column 1 and 2 from table, where x condition exists.
+//example, we want to know the cities that have a population count of at least 1million, from the California cities table.
+
+SELECT * FROM California_Cities
+WHERE population >= 1000000;
+
+SELECT * FROM California_Cities
+WHERE name LIKE 'L%';
+
+//This last query uses wildcards, this will search for all cities that have a name that starts with
