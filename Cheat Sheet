@@ -1,39 +1,111 @@
 KEYWORDS:
 
 SELECT   - select data from a table, you can specify columns or use * to refer to all columns
+
 FROM     - specifies table to select from
+
 WHERE    - condition for selected data
+
 DISTINCT - only return unique values in query, used in tandem with select ex: SELECT DISTINCT (column names)
+
 COUNT    - returns the number of queried items, used in tandem with SELECT, ex: SELECT COUNT (column names)
+
 LIKE     - used to specify a pattern match with the WHERE clause, such as names starting with A, ex: WHERE names LIKE "A%";
                refer to https://www.w3schools.com/sql/sql_like.asp for more examples using LIKE
                refer to https://www.w3schools.com/sql/sql_wildcards.asp for more wild card examples
+
 AND      - used in conjunction with WHERE to specify two different conditions that must be met in order to select from.
+
 OR       - also used in conjunction with WHERE to specify multiple conditions that can satisfy the search (WHERE this OR that)
+
 NOT      - changes the condition to anything that isn't the specified condition, used after WHERE and AND. ex: WHERE NOT country = 'USA'
+
 ORDER BY - column name is appended after this keyword to dictate the sorting of the result set. 
                can have multiple column names to determine what follows the sorting method if duplicates of first column
                ASC and DESC can be used after each column name
+
 INSERT INTO / VALUES - inserts a record into a table. you can specify which columns and provide values for specified columns.
+
 NULL     - field with no value, can be used in a WHERE statement used with IS, ex: WHERE country IS NOT NULL/IS NULL
+
 UPDATE   - takes a table parameter, used with a SET statement in next line, where set defines the columns to change to given value SET City = 'Oakland'
                The UPDATE keyword takes a WHERE clause at the last line to specify which records to update, otherwise it will update all the records. 
+
 DELETE   - Removes records in existing table, must specify the WHERE clause otherwise all records are deleted. ex: DELETE FROM table_name WHERE condition;     
+
 LIMIT    - specifies a number of items that can be returned from a query. can't go past the limit.
+
 TOP      - used in tandem with SELECT to return X number of items or percentage. (same thing as limit)
+
 AS       - allows you to rename the title of the result set. use AS after the columns specified in the SELECT statement
+
 MIN/MAX  - allows you to find the smallest or largest value in a column, ex: SELECT MIN(Price) //returns the smallest price value in Price column
+
 AVG      - used after SELECT, ex: SELECT AVG(Column Name), returns the average of all records
+
 SUM      - returns the sum of all records, ex: SELECT SUM(Column_Name)
+
 IN       - shorthand for OR operator, used in WHERE clause. ex: WHERE country IN ('Germany', 'France', 'Poland');
+
 BETWEEN  - allows you to narrow your filter to a range between two numbers, text or date. ex: WHERE age BETWEEN 10 AND 20;
 
 JOIN     - consider table 1 and table 2, left == table 1, right == table 2
 
 INNER JOIN: finds matches that are in both tables. (Intersection of two tables)
+                ex:  SELECT column_name(s)
+                     FROM table1
+                     INNER JOIN table2
+                     ON table1.column_name = table2.column_name;
+                //note, both tables must share a column_name in order to return anything with this condition.
 
-              ex: 
+LEFT JOIN: takes all records in table 1 within the specified ON condition, and anything that matches in table 2. 
+RIGHT JOIN: takes all records in table 2 within the specified ON condition, and anything that matches in table 1.
+FULL JOIN: returns all records in both tables with specified ON condition
 
+SElF JOIN: reference the same table by giving it two aliases, use INNER JOIN to compare data within the table.
+                some examples can be, finding customers from the same city.
+                or the relationships between staff members, finding who's the manager of this employee.
+                The > or < operator is used to make sure the same customer/employee isn't being compared.
+                for a more thorough breakdown: http://www.sqlservertutorial.net/sql-server-basics/sql-server-self-join/
+                
+UNION:      - joins the result set of two or more SELECT statements. UNION ALL to show duplicates
+
+GROUP BY    - allows you to organize the result set. usually used in tandem with MIN/MAX/COUNT functions.
+                ex: SELECT COUNT(CustomerID), Country
+                    FROM Customers
+                    GROUP BY Country;
+
+HAVING      - another keyword to filter the result set. refer to above example, adding: HAVING COUNT(CustomerID) > 5
+                will only show the result set of countries with more than 5 customers.
+
+EXISTS      - allows you to filter by using a subquery, a SELECT within a SELECT.
+                ex: SELECT SupplierName
+                    FROM Suppliers
+                    WHERE EXISTS (SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price = 22);
+ALL/ANY     - used with SELECT and WHERE, returns true if given condition is met. ALL checks if all records meet the condition,
+                whereas ANY returns any records that meet the condition.
+                ex: SELECT ProductName
+                    FROM Products
+                    WHERE ProductID = ALL (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
+
+SELECT INTO - moves records into a new table in the same or a different database. IN keyword to move to new database.
+                 can specify which records by using WHERE clauses or JOIN clauses
+                 ex: SELECT * INTO CustomersBackup2017
+                     FROM Customers;
+INSERT INTO - moves records into an existing different table (not a new table)
+                 ex: INSERT INTO Customers (CustomerName, City, Country)
+                     SELECT SupplierName, City, Country FROM Suppliers
+                     WHERE Country='Germany';
+
+CASE->WHEN->THEN->END (If statement for SQL)
+         ex:  SELECT OrderID, Quantity,
+              CASE
+                  WHEN Quantity > 30 THEN "The quantity is greater than 30"
+                  WHEN Quantity = 30 THEN "The quantity is 30"
+                  ELSE "The quantity is under 30"
+              END AS QuantityText
+              FROM OrderDetails;
+NULL Functions: 
 
 
 
@@ -97,4 +169,25 @@ WHERE OrderDate BETWEEN '1996-07-01' AND '1996-07-31';
 
 //BETWEEN operator allows you to specify a range to search
 
+SELECT Customers.CustomerID, Orders.OrderID, Customers.CustomerName, Orders.OrderDate
+FROM Orders
+INNER JOIN Customers
+ON Orders.CustomerID=Customers.CustomerID
+ORDER BY Customers.CustomerID, Orders.OrderID ASC;
+
+//This query finds the intersection of CustomerID records in both Orders and Customers table. sorted by Customer ID and then Order ID
+
+SELECT A.CustomerName AS CustomerName1, B.CustomerName AS CustomerName2, A.City
+FROM Customers A, Customers B
+WHERE A.CustomerID <> B.CustomerID
+AND A.City = B.City 
+ORDER BY A.City;
+
+//Searches the Customers table for customers that are from the same city. Result will return a record if at least two people are from the same city.
+
+SELECT * INTO newtable
+FROM oldtable
+WHERE 1 = 0;
+
+//Creates a new table with same schema of old table, but no records are transferred over to new table.
 
