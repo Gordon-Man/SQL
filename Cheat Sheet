@@ -105,7 +105,15 @@ CASE->WHEN->THEN->END (If statement for SQL)
                   ELSE "The quantity is under 30"
               END AS QuantityText
               FROM OrderDetails;
-NULL Functions: 
+
+Creating Functions in SQL:
+
+CREATE PROCEDURE SelectAllCustomers @City nvarchar(30), @PostalCode nvarchar(10)
+AS
+SELECT * FROM Customers WHERE City = @City AND PostalCode = @PostalCode
+GO;
+
+EXEC electAllCustomers City = "London", PostalCode = "WA1 1DP";
 
 
 
