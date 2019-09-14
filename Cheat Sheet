@@ -96,7 +96,10 @@ INSERT INTO - moves records into an existing different table (not a new table)
                  ex: INSERT INTO Customers (CustomerName, City, Country)
                      SELECT SupplierName, City, Country FROM Suppliers
                      WHERE Country='Germany';
-
+                     
+ALTER TABLE table_name
+ADD column_name datatype; - This statement adds a column to an existing table.
+        
 CASE->WHEN->THEN->END (If statement for SQL)
          ex:  SELECT OrderID, Quantity,
               CASE
